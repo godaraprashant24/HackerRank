@@ -1,2 +1,2 @@
 # HackerRank
-This Repository contains the solutions to thw HackerRank problems.
+This Repository contains the solutions to th HackerRank problems related to Stack and Queue.
