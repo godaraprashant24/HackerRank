@@ -1,0 +1,60 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the isBalanced function below.
+    static String isBalanced(String s) {
+        //create a stack
+        Stack<Character> stack = new Stack<Character>();
+        char[] st = s.toCharArray();
+        for(char a:st){
+        //push if open brackets
+            if(a=='(' || a=='{' || a=='['){
+                stack.push(a);
+            }else if(a==')' || a=='}' || a==']'){
+              //check if we have an open bracket for the closed one to pop else push into the stack
+                if(!stack.isEmpty() && ((stack.peek()=='(' && a==')')||(stack.peek()=='{' && a=='}')||(stack.peek()=='[' && a==']'))){
+                    stack.pop();
+                    
+                }else{
+                    stack.push(a);
+                }
+            }
+
+        }
+        if(stack.isEmpty()){
+            return "YES";
+        }else{
+            return "NO";
+        }
+
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int t = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int tItr = 0; tItr < t; tItr++) {
+            String s = scanner.nextLine();
+
+            String result = isBalanced(s);
+
+            bufferedWriter.write(result);
+            bufferedWriter.newLine();
+        }
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
