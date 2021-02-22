@@ -1,0 +1,72 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the poisonousPlants function below.
+    static int poisonousPlants(int[] p) {
+        Stack<Integer[]> st = new Stack<Integer[]>();
+        int days = 0;
+        //Looping from right to left as we need to find bigger element on the right
+        for(int i=p.length-1;i>=0;i--){
+            int count=0;
+            //checking if the element is smaller than the one in stack
+            while(!st.isEmpty() && p[i]<st.peek()[0]){
+                count++;
+                //storing the max value as the plant on left can eleminate all plants which the popped element can eliminate
+                count=Math.max(count,st.pop()[1]);
+            }
+            //storing the plant or element along with no. of days it takes to die. (Can use a class to store instead of array)
+            Integer[] temp = new Integer[2];
+            temp[0]=p[i];
+            temp[1]=count;
+            st.push(temp);
+            //putting the larger value to return
+            days = Math.max(count,days);
+        }
+        return days;
+    }
+    
+    static int max(ArrayList<Integer> check){
+        int max = check.get(0);
+        for(int a:check){
+            if(a>max){
+                max=a;
+            }
+        }
+        return max;
+    }
+    
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int[] p = new int[n];
+
+        String[] pItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int i = 0; i < n; i++) {
+            int pItem = Integer.parseInt(pItems[i]);
+            p[i] = pItem;
+        }
+
+        int result = poisonousPlants(p);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
